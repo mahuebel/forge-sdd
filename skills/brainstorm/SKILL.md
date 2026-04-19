@@ -66,3 +66,62 @@ For each brainstorming question:
    - If `stakes == 3`, present the draft record to the user for approval or edit before locking.
    - If `stakes` is 1 or 2, commit record silently; print one-line readout.
    - Append record to `decisions.json`.
+
+## Decision record
+
+Schema (enforced by `lib/decisions.ts:DecisionRecord`):
+
+```json
+{
+  "id": "d-003",
+  "cluster_id": "auth",
+  "question": "Session storage strategy",
+  "decision_type": "library-or-pattern",
+  "stakes": 3,
+  "forge_topic_id": "auth-session-storage",
+  "options_considered": ["jwt-cookies", "server-sessions", "event-sourced"],
+  "chosen": "event-sourced",
+  "variation_accepted": "round-2-a",
+  "rationale": "auditability; team has Kafka experience",
+  "annotations_addressed": [
+    {"pin_id": "p-7", "note": "use refresh tokens not rolling", "resolution": "refresh"}
+  ],
+  "open_followups": [],
+  "decided_at": "<ISO timestamp>"
+}
+```
+
+Use `nextDecisionId(existing)` from `lib/decisions.ts` to assign the next id. Persist with `appendDecision(projectRoot, sessionId, record)`.
+
+## Readout format
+
+After each decision lands, emit exactly this (substituting values):
+
+```
+✓ Decision recorded: d-003 — Session storage: event-sourced
+  Rationale: auditability; team has Kafka experience
+  Addressed: pin-7 (refresh tokens over rolling)
+  → Next: <next question title, or "brainstorm complete">
+```
+
+## Spec emission
+
+When the user signals brainstorming is done:
+
+1. Read full `decisions.json` via `readDecisions`.
+2. Synthesize `docs/sdd/specs/YYYY-MM-DD-<topic>-design.md`. Sections, in order: Problem, Goals, Non-goals, Decisions reference (auto-generated table citing each `d-XXX`), Architecture, Component Breakdown, Data Flow, Error Handling, Testing strategy, Risks, Open items. Each load-bearing claim cites a decision id (e.g., "Sessions are event-sourced (d-003)").
+3. Run the spec self-review loop adapted from superpowers:
+   - Placeholder scan — no TBD/TODO/vague requirements
+   - Internal consistency — sections don't contradict each other
+   - Scope — one plan-worthy spec, not multiple
+   - Ambiguity — pick one interpretation and make it explicit
+   Fix inline.
+4. Commit `spec.md` and `decisions.json` together: `docs: forge-sdd spec — <topic>`.
+5. Present to user: "Spec at `<path>`. Review and tell me to proceed — I'll advance to plan-writing in this session."
+6. **Wait for user acknowledgement.** On "proceed" / "looks good" / equivalent, update `state.json` (`stage: plan`, set `spec_path`, `decisions_path`) via `writeState`, then invoke `forge-sdd:write-plan` as the next skill.
+
+## Do not
+
+- Ask multiple questions in one message. One at a time.
+- Write code, create a plan doc, or touch `executing-plans` — this skill's terminal state is invoking `write-plan`.
+- Skip the forge variation step for a question because "it seems obvious" — the whole point is the visual layer. If it's truly obvious, it's not a question worth asking.

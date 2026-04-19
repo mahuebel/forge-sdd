@@ -1,0 +1,11 @@
+{
+  "name": "forge-sdd-marketplace",
+  "plugins": [
+    {
+      "name": "forge-sdd",
+      "source": ".",
+      "description": "Spec-driven design system",
+      "version": "0.1.0"
+    }
+  ]
+}

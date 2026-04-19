@@ -78,3 +78,42 @@ Most implementation phases do **not** meet these criteria. When in doubt, choose
 | `execution` | Inherits phase. |
 | `require_plan_approval` | `true` if `stakes: 3`, else `false`. |
 | `worktree` | `default` (plan worktree). Forced `required` inside `execution: team` phases. |
+
+## Authoring loop
+
+1. Read `spec.md` and `decisions.json` (if available).
+2. Identify phases. Target 3-6 phases for a typical plan. Scaffolding/infrastructure first; integration/e2e last.
+3. Decompose each phase into workstreams. Maximize parallelism where file ownership permits. Tasks that edit the same file go in the same workstream (avoids teammate file-conflict risk per agent-teams docs).
+4. For each task:
+   - Pick skill defaults (UI workstreams auto-populated)
+   - Carry stakes from `implements:` decisions (highest if multiple)
+   - Set TDD mode (default `auto`; `skip` with rationale if appropriate)
+   - Set `require_plan_approval` (auto `true` for stakes-3)
+5. Write the full task body per upstream writing-plans TDD structure — exact file paths, failing test code, implementation code, verification commands, commit command. **Zero placeholders.**
+6. Emit the plan at `docs/sdd/plans/YYYY-MM-DD-<topic>-plan.md`.
+
+## Self-review (before presenting)
+
+Scan the written plan with fresh eyes:
+
+1. **Spec coverage** — can each stakes-3 decision be pointed to a specific task via `implements:`? List gaps (advisory, not blocking).
+2. **Placeholder scan** — no "TBD", "TODO", "similar to Task N", or "add appropriate X".
+3. **Type/name consistency** — function names, schema fields, filenames stable across tasks.
+4. **Workstream ownership** — no two workstreams edit the same file in the same phase.
+5. **Dependency graph** — `depends_on` references valid task ids.
+
+Fix inline. Don't re-review.
+
+## Handoff
+
+1. Commit the plan: `docs: forge-sdd plan — <topic>`.
+2. Update `state.json`: `stage: execute_pending`, `plan_path` set.
+3. Present to user:
+   > Plan at `<path>`. This is the hard checkpoint — review and tell me to proceed. When you're ready, I'll hand off to `forge-sdd:execute`.
+4. **Wait.** Do not auto-invoke execute.
+
+## Do not
+
+- Auto-advance to execute. H3 — this is the hard checkpoint.
+- Write tasks with placeholder test bodies. If a task's test is hard to write up front, redesign the task — it's not a task yet.
+- Use agent-teams for implementation phases by default. Teams are expensive and best for research/debate.

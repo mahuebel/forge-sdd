@@ -2,7 +2,7 @@ import { describe, test, expect, beforeEach, afterEach } from "bun:test";
 import { mkdtemp, rm, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { appendDecision, readDecisions, type DecisionRecord } from "../../lib/decisions.ts";
+import { appendDecision, nextDecisionId, readDecisions, type DecisionRecord } from "../../lib/decisions.ts";
 
 let root: string;
 
@@ -45,5 +45,31 @@ describe("decisions", () => {
 
   test("readDecisions returns [] when no file", async () => {
     expect(await readDecisions(root, "s1")).toEqual([]);
+  });
+});
+
+describe("nextDecisionId", () => {
+  test("returns d-001 for empty array", () => {
+    expect(nextDecisionId([])).toBe("d-001");
+  });
+
+  test("increments from a single existing id", () => {
+    expect(nextDecisionId([{ ...sample, id: "d-001" }])).toBe("d-002");
+  });
+
+  test("returns max+1 across non-contiguous ids", () => {
+    const records = [
+      { ...sample, id: "d-001" },
+      { ...sample, id: "d-003" },
+    ];
+    expect(nextDecisionId(records)).toBe("d-004");
+  });
+
+  test("ignores malformed ids when computing next", () => {
+    const records = [
+      { ...sample, id: "garbage" },
+      { ...sample, id: "d-005" },
+    ];
+    expect(nextDecisionId(records)).toBe("d-006");
   });
 });

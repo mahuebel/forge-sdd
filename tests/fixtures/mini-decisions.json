@@ -1,0 +1,19 @@
+{
+  "decisions": [
+    {
+      "id": "d-001",
+      "cluster_id": "core",
+      "question": "Counter signature",
+      "decision_type": "library-or-pattern",
+      "stakes": 1,
+      "forge_topic_id": "counter",
+      "options_considered": ["count(n)", "increment(n)"],
+      "chosen": "count(n)",
+      "variation_accepted": "round-1-a",
+      "rationale": "shorter",
+      "annotations_addressed": [],
+      "open_followups": [],
+      "decided_at": "2026-04-19T00:00:00Z"
+    }
+  ]
+}

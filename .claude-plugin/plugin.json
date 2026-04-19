@@ -9,5 +9,6 @@
   "homepage": "https://github.com/mahuebel/forge-sdd",
   "repository": "https://github.com/mahuebel/forge-sdd",
   "license": "MIT",
-  "keywords": ["sdd", "spec-driven", "forge", "superpowers", "agent-teams", "design"]
+  "keywords": ["sdd", "spec-driven", "forge", "superpowers", "agent-teams", "design"],
+  "hooks": "./hooks/hooks.json"
 }

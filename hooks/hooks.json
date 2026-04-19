@@ -1,0 +1,20 @@
+{
+  "hooks": [
+    {
+      "event": "TaskCreated",
+      "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/task-created.ts"
+    },
+    {
+      "event": "TaskCompleted",
+      "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/task-completed.ts"
+    },
+    {
+      "event": "TeammateIdle",
+      "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/teammate-idle.ts"
+    },
+    {
+      "event": "Stop",
+      "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-stop.ts"
+    }
+  ]
+}

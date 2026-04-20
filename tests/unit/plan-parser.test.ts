@@ -39,6 +39,42 @@ tasks:
     expect(plan.phases[0].workstreams[0].tasks[0].require_plan_approval).toBe(true);
   });
 
+  test("explicit require_plan_approval: false overrides stakes-3 default", () => {
+    const md = `## Phase 1 — p
+execution: subagent
+
+### Workstream: w
+worktree: default
+tasks:
+  - id: t-001
+    title: t
+    stakes: 3
+    tdd: auto
+    require_plan_approval: false
+    files: [x.ts]
+`;
+    const plan = parsePlan(md);
+    expect(plan.phases[0].workstreams[0].tasks[0].require_plan_approval).toBe(false);
+  });
+
+  test("explicit require_plan_approval: true overrides stakes-1 default", () => {
+    const md = `## Phase 1 — p
+execution: subagent
+
+### Workstream: w
+worktree: default
+tasks:
+  - id: t-001
+    title: t
+    stakes: 1
+    tdd: auto
+    require_plan_approval: true
+    files: [x.ts]
+`;
+    const plan = parsePlan(md);
+    expect(plan.phases[0].workstreams[0].tasks[0].require_plan_approval).toBe(true);
+  });
+
   test("parses multiple tasks in one workstream separated by blank lines", () => {
     const md = `## Phase 1 — p
 execution: subagent

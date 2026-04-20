@@ -131,7 +131,9 @@ function parseTask(lines: string[], start: number): { task: PlanTask; consumed: 
     tdd: (fields.tdd === "skip" ? "skip" : "auto") as TDDMode,
     execution: fields.execution === "team" ? "team" : fields.execution === "subagent" ? "subagent" : undefined,
     require_plan_approval:
-      fields.require_plan_approval === "true" ? true : stakes === 3,
+      fields.require_plan_approval === "false" ? false
+        : fields.require_plan_approval === "true" ? true
+        : stakes === 3,
     files: fields.files ? parseList(fields.files) : [],
     depends_on: fields.depends_on ? parseList(fields.depends_on) : undefined,
   };

@@ -1,7 +1,7 @@
 {
   "name": "forge-sdd",
   "description": "Spec-driven design system: visual brainstorming with forge, structured plans with SDD defaults, subagent/agent-team execution with TDD and worktree hygiene",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Mark Huebel",
     "url": "https://github.com/mahuebel"
@@ -9,6 +9,5 @@
   "homepage": "https://github.com/mahuebel/forge-sdd",
   "repository": "https://github.com/mahuebel/forge-sdd",
   "license": "MIT",
-  "keywords": ["sdd", "spec-driven", "forge", "superpowers", "agent-teams", "design"],
-  "hooks": "./hooks/hooks.json"
+  "keywords": ["sdd", "spec-driven", "forge", "superpowers", "agent-teams", "design"]
 }

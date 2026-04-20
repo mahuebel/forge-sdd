@@ -1,6 +1,6 @@
 {
   "name": "forge-sdd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "private": true,
   "description": "Spec-driven design system for Claude Code",

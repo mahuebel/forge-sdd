@@ -11,6 +11,12 @@ export interface AnnotationResolution {
   resolution: string;
 }
 
+export interface AngleExplored {
+  slot: string;
+  option: string;
+  angle: string;
+}
+
 export interface DecisionRecord {
   id: string;
   cluster_id: string;
@@ -19,6 +25,7 @@ export interface DecisionRecord {
   stakes: Stakes;
   forge_topic_id: string;
   options_considered: string[];
+  angles_explored?: AngleExplored[];
   chosen: string;
   variation_accepted: string;
   rationale: string;

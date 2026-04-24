@@ -131,7 +131,7 @@ Drives forge for structured visual decision-making across UI *and* architecture.
 
 ### Decision classification
 
-Each question the skill asks is classified by a small `decision-classifier` skill:
+Each question the skill asks is classified inline against this rubric (no child skill — classification happens silently inside the question flow so the user sees one ready message per topic, not a ceremony per step):
 
 | Decision type | Rendering | Typical questions |
 |---|---|---|
@@ -339,14 +339,13 @@ The skill calls `EnterPlanMode` before dispatch. If you reject the proposal, exe
 
 ## Under the hood
 
-forge-sdd ships four skills, three slash commands, four hook scripts, and five typed shared libraries:
+forge-sdd ships three skills, three slash commands, four hook scripts, and five typed shared libraries:
 
 | Piece | What it does |
 |---|---|
-| `skills/brainstorm/SKILL.md` | Fork of `superpowers:brainstorming` with forge-driven visual question loop |
+| `skills/brainstorm/SKILL.md` | Fork of `superpowers:brainstorming` with forge-driven visual question loop (classification inlined) |
 | `skills/write-plan/SKILL.md` | Fork of `superpowers:writing-plans` with workstream-first phases, UI defaults, decision refs |
 | `skills/execute/SKILL.md` | Fork of `superpowers:executing-plans` with native-plan-mode gate + agent-teams integration |
-| `skills/decision-classifier/SKILL.md` | Small classifier: question → rendering type + suggested stakes |
 | `commands/sdd-{brainstorm,plan,execute}.md` | Thin slash-command shortcuts (skills auto-trigger via description too) |
 | `hooks/scripts/{task-created,task-completed,teammate-idle,session-stop}.ts` | Agent-teams quality gates + state snapshots |
 | `lib/state.ts` | Session state schema + I/O |
@@ -404,7 +403,6 @@ forge-sdd/
     brainstorm/SKILL.md
     write-plan/SKILL.md
     execute/SKILL.md
-    decision-classifier/SKILL.md
   hooks/
     hooks.json             event → script mapping
     scripts/

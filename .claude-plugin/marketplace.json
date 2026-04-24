@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Single-plugin marketplace distributing forge-sdd — a spec-driven design system composing forge and superpowers",
-    "version": "0.0.3"
+    "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "forge-sdd",
       "description": "Spec-driven design system: visual brainstorming with forge, structured plans with SDD defaults, subagent/agent-team execution with TDD and worktree hygiene",
-      "version": "0.0.3",
+      "version": "0.1.0",
       "source": "./",
       "author": {
         "name": "Mark Huebel",

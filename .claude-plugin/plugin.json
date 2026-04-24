@@ -1,7 +1,7 @@
 {
   "name": "forge-sdd",
   "description": "Spec-driven design system: visual brainstorming with forge, structured plans with SDD defaults, subagent/agent-team execution with TDD and worktree hygiene",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": {
     "name": "Mark Huebel",
     "url": "https://github.com/mahuebel"

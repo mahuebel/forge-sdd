@@ -46,6 +46,26 @@ describe("decisions", () => {
   test("readDecisions returns [] when no file", async () => {
     expect(await readDecisions(root, "s1")).toEqual([]);
   });
+
+  test("angles_explored round-trips when provided", async () => {
+    const withAngles: DecisionRecord = {
+      ...sample,
+      id: "d-002",
+      angles_explored: [
+        { slot: "a", option: "jwt", angle: "UX-first; optimize for zero round-trips" },
+        { slot: "b", option: "event-sourced", angle: "auditability-first" },
+      ],
+    };
+    await appendDecision(root, "s1", withAngles);
+    const read = await readDecisions(root, "s1");
+    expect(read).toEqual([withAngles]);
+  });
+
+  test("records without angles_explored still read cleanly", async () => {
+    await appendDecision(root, "s1", sample);
+    const [read] = await readDecisions(root, "s1");
+    expect(read.angles_explored).toBeUndefined();
+  });
 });
 
 describe("nextDecisionId", () => {
